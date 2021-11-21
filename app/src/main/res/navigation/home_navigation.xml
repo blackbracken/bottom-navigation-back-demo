@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/navigation_home"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="black.bracken.bottomnavigationbackdemo.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_homeChildFragment"
+            app:destination="@id/homeChildFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeChildFragment"
+        android:name="black.bracken.bottomnavigationbackdemo.ui.homechild.HomeChildFragment"
+        android:label="fragment_home_child"
+        tools:layout="@layout/fragment_home_child" >
+        <action
+            android:id="@+id/action_homeChildFragment_to_homeGrandchildFragment"
+            app:destination="@id/homeGrandchildFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeGrandchildFragment"
+        android:name="black.bracken.bottomnavigationbackdemo.ui.homegrandchild.HomeGrandchildFragment"
+        android:label="fragment_home_grandchild"
+        tools:layout="@layout/fragment_home_grandchild" />
+</navigation>

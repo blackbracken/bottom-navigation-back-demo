@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ボトムナビゲーションのアイテムのIDとナビゲーションのIDを, ボトムナビゲーションの遷移のために一致させる -->
+    <item name="navigation_home" type="id" />
+    <item name="navigation_dashboard" type="id" />
+    <item name="navigation_notifications" type="id" />
+
+</resources>
