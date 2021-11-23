@@ -13,6 +13,7 @@ import black.bracken.bottomnavigationbackdemo.MainViewModel
 import black.bracken.bottomnavigationbackdemo.R
 import black.bracken.bottomnavigationbackdemo.databinding.FragmentHomeBinding
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.launch
@@ -37,11 +38,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
         with(binding) {
             button.setOnClickListener {
                 val action = HomeFragmentDirections.actionHomeFragmentToHomeChildFragment()
@@ -50,11 +46,11 @@ class HomeFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            mainViewModel.reselectedItemOnRoot.collect { reselectedItem ->
-                if (!reselectedItem.isHome()) return@collect
-
-                binding.edittext.text.clear()
-            }
+            mainViewModel.reselectedItemOnRoot
+                .filter { it.isHome() }
+                .collect {
+                    binding.edittext.text.clear()
+                }
         }
 
         return root
