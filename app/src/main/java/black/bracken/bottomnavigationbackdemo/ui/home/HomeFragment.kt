@@ -9,9 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.*
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import black.bracken.bottomnavigationbackdemo.MainViewModel
 import black.bracken.bottomnavigationbackdemo.R
 import black.bracken.bottomnavigationbackdemo.databinding.FragmentHomeBinding
+import com.xwray.groupie.GroupieAdapter
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.forEach
@@ -38,18 +41,29 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        with(binding) {
-            button.setOnClickListener {
-                val action = HomeFragmentDirections.actionHomeFragmentToHomeChildFragment()
-                findNavController().navigate(action)
+        with(binding.recycler) {
+            val items = (0 until 30).map {
+                HomeItem {
+                    val action = HomeFragmentDirections.actionHomeFragmentToHomeChildFragment()
+                    findNavController().navigate(action)
+                }
             }
+            adapter = GroupieAdapter().apply {
+                addAll(items)
+            }
+
+            val linearLayoutManager = LinearLayoutManager(requireContext())
+            layoutManager = linearLayoutManager
+
+            val divider = DividerItemDecoration(requireContext(), linearLayoutManager.orientation)
+            addItemDecoration(divider)
         }
 
         lifecycleScope.launch {
             mainViewModel.reselectedItemOnRoot
                 .filter { it.isHome() }
                 .collect {
-                    binding.edittext.text.clear()
+                    binding.recycler.smoothScrollToPosition(0)
                 }
         }
 
